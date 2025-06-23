@@ -3,7 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.13.35919.96 d17.13
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "YoutubeWatchlist", "YoutubeWatchlist\YoutubeWatchlist.csproj", "{98562AD9-94A7-478F-B916-F07614EE6976}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "YoutubeWatchlist.Blazor", "YoutubeWatchlist\YoutubeWatchlist.Blazor.csproj", "{98562AD9-94A7-478F-B916-F07614EE6976}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "YoutubeWatchlist.Library", "YoutubeWatchlist.Library\YoutubeWatchlist.Library.csproj", "{A351E45D-3B7C-4FC8-8F4D-87BD57B2F401}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -17,6 +19,10 @@ Global
 		{98562AD9-94A7-478F-B916-F07614EE6976}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{98562AD9-94A7-478F-B916-F07614EE6976}.Release|Any CPU.Build.0 = Release|Any CPU
 		{98562AD9-94A7-478F-B916-F07614EE6976}.Release|Any CPU.Deploy.0 = Release|Any CPU
+		{A351E45D-3B7C-4FC8-8F4D-87BD57B2F401}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A351E45D-3B7C-4FC8-8F4D-87BD57B2F401}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A351E45D-3B7C-4FC8-8F4D-87BD57B2F401}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A351E45D-3B7C-4FC8-8F4D-87BD57B2F401}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

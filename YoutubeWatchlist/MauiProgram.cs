@@ -1,5 +1,6 @@
 ﻿using Microsoft.Extensions.Logging;
 using MudBlazor.Services;
+using YoutubeWatchlist.Blazor;
 
 namespace YoutubeWatchlist
 {
@@ -17,6 +18,7 @@ namespace YoutubeWatchlist
 
             builder.Services.AddMauiBlazorWebView();
 			builder.Services.AddMudServices();
+            builder.Services.AddDependencies();
 
 #if DEBUG
 			builder.Services.AddBlazorWebViewDeveloperTools();

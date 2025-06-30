@@ -1,5 +1,6 @@
 ﻿@page "/"
 @inject HomeViewModel viewModel
+@inject ISnackbar snackbar
 
 <MudContainer Class="pa-4">
 	<MudText Typo="@Typo.h3">All Videos</MudText>
@@ -23,6 +24,8 @@
 			<MudText Style="margin-top: 100px;" Typo="@Typo.h4">There are no videos in the list</MudText>
 		</div>	
 	}
+
+	<MudFab Style="position: fixed; top: 85%; left: 90%; background: red; color: white;" StartIcon="@Icons.Material.Filled.Add" />
 </MudContainer>
 
 @code
@@ -32,6 +35,9 @@
 		viewModel.IsLoading = true;
 
 		await viewModel.InitAsync();
+
+		if (!string.IsNullOrEmpty(viewModel.ErrorMessages))
+			snackbar.Add("Error Loading Page Correctly", Severity.Error);
 
 		viewModel.IsLoading = false;
 	}

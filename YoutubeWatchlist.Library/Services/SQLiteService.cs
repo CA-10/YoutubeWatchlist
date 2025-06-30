@@ -5,17 +5,24 @@ namespace YoutubeWatchlist.Library.Services;
 
 public class SQLiteService : IDatabaseService
 {
+	private const string connectionName = "Data Source=database.db3";
+
 	private string createStatements = """
-			CREATE TABLE IF NOT EXISTS videos (
+		CREATE TABLE IF NOT EXISTS videos (
 			NAME VARCHAR(255),
-			CATEGORY VARCHAR(255),
+			CATEGORY_ID VARCHAR(255),
 			TIMESTAMP_SECONDS INT
+		);
+
+		CREATE TABLE IF NOT EXISTS categories (
+			CATEGORY_ID VARCHAR(255),
+			CATEGORY_NAME VARCHAR(255)
 		);
 	""";
 
 	public SQLiteService()
 	{
-
+		CreateTablesIfNotExist();
 	}
 
 	private bool CreateTablesIfNotExist()
@@ -24,7 +31,7 @@ public class SQLiteService : IDatabaseService
 
 		try
 		{
-			using (var connection = new SqliteConnection("Data Source=database.db3"))
+			using (var connection = new SqliteConnection(connectionName))
 			{
 				connection.Open();
 
@@ -42,19 +49,25 @@ public class SQLiteService : IDatabaseService
 		return success;
 	}
 
-	public async Task<(bool success, List<Video> videos)> GetVideosAsync()
+	public async Task<(bool success, List<Video> videos, List<Category> categories)> GetDataAsync()
 	{
 		bool success = true;
+
 		List<Video> videos = new();
+		List<Category> categories = new();
 
 		string query = """
-			SELECT * FROM videos;
+			SELECT * FROM videos
+			JOIN categories
+			ON videos.CATEGORY_ID = categories.CATEGORY_ID;
 		""";
 
 		try
 		{
-			using (var connection = new SqliteConnection("Data Source=database.db"))
+			using (var connection = new SqliteConnection(connectionName))
 			{
+				connection.Open();
+
 				using var command = new SqliteCommand(query, connection);
 
 				using (var reader = await command.ExecuteReaderAsync())
@@ -64,16 +77,25 @@ public class SQLiteService : IDatabaseService
 						while (await reader.ReadAsync())
 						{
 							string name = reader.GetString(reader.GetOrdinal("NAME"));
-							string categoryID = reader.GetString(reader.GetOrdinal("CATEGORY_ID"));
 							int timestampSeconds = reader.GetInt32(reader.GetOrdinal("TIMESTAMP_SECONDS"));
+
+							string categoryID = reader.GetString(reader.GetOrdinal("CATEGORY_ID"));
+							string categoryName = reader.GetString(reader.GetOrdinal("CATEGORY_NAME"));
+
+							Category category = new Category()
+							{
+								Name = categoryName,
+								CategoryID = categoryID,
+							};
 
 							Video video = new Video()
 							{
 								Name = name,
-								CategoryID = categoryID,
+								Category = category,
 								TimestampSeconds = timestampSeconds
 							};
 
+							categories.Add(category);
 							videos.Add(video);
 						}
 					}
@@ -84,8 +106,9 @@ public class SQLiteService : IDatabaseService
 		{
 			success = false;
 			videos = new();
+			categories = new();
 		}
 
-		return (success, videos);
+		return (success, videos, categories);
 	}
 }

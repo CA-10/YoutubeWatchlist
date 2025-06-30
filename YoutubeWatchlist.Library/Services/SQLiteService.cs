@@ -9,14 +9,17 @@ public class SQLiteService : IDatabaseService
 
 	private string createStatements = """
 		CREATE TABLE IF NOT EXISTS videos (
-			NAME VARCHAR(255),
-			CATEGORY_ID VARCHAR(255),
-			TIMESTAMP_SECONDS INT
+			NAME TEXT,
+			NOTES TEXT,
+			LINK TEXT,
+			CATEGORY_ID TEXT,
+			TIMESTAMP_SECONDS INT,
+			IMAGE_BASE64 TEXT
 		);
 
 		CREATE TABLE IF NOT EXISTS categories (
-			CATEGORY_ID VARCHAR(255),
-			CATEGORY_NAME VARCHAR(255)
+			CATEGORY_ID TEXT,
+			CATEGORY_NAME TEXT
 		);
 	""";
 
@@ -77,10 +80,13 @@ public class SQLiteService : IDatabaseService
 						while (await reader.ReadAsync())
 						{
 							string name = reader.GetString(reader.GetOrdinal("NAME"));
+							string notes = reader.GetString(reader.GetOrdinal("NOTES"));
 							int timestampSeconds = reader.GetInt32(reader.GetOrdinal("TIMESTAMP_SECONDS"));
+							string link = reader.GetString(reader.GetOrdinal("LINK"));
 
 							string categoryID = reader.GetString(reader.GetOrdinal("CATEGORY_ID"));
 							string categoryName = reader.GetString(reader.GetOrdinal("CATEGORY_NAME"));
+							string image = reader.GetString(reader.GetOrdinal("IMAGE_BASE64"));
 
 							Category category = new Category()
 							{
@@ -91,8 +97,11 @@ public class SQLiteService : IDatabaseService
 							Video video = new Video()
 							{
 								Name = name,
+								Notes = notes,
+								Link = link,
 								Category = category,
-								TimestampSeconds = timestampSeconds
+								TimestampSeconds = timestampSeconds,
+								Base64Image = image,
 							};
 
 							categories.Add(category);

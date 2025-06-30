@@ -1,0 +1,19 @@
+﻿<MudCard Elevation="4">
+	<MudCardMedia Image="@video.Base64Image" Height="200"></MudCardMedia>
+
+	<MudCardContent>
+		<MudText Typo="@Typo.h5">@video.Name</MudText>
+		<MudText Typo="@Typo.body2">@video.Notes</MudText>
+	</MudCardContent>
+
+	<MudCardActions>
+		<MudButton Variant="@Variant.Text" style="color: red;">Open</MudButton>
+		<MudButton Variant="@Variant.Text" style="color: red;">Edit</MudButton>
+	</MudCardActions>
+</MudCard>
+
+@code
+{
+	[Parameter]
+	public Video video { get; set; } = new Video();
+}

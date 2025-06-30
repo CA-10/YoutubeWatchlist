@@ -1,2 +1,38 @@
 ﻿@page "/"
+@inject HomeViewModel viewModel
 
+<MudContainer Class="pa-4">
+	<MudText Typo="@Typo.h3">All Videos</MudText>
+
+	@if (viewModel.Videos?.Count() > 0)
+	{
+		<MudGrid Class="mt-3">
+			@foreach (Video video in viewModel.Videos)
+			{
+				Video vidReference = video;
+
+				<MudItem md="4" sm="6">
+					<VideoCard video="vidReference" />
+				</MudItem>
+			}
+		</MudGrid>
+	}
+	else
+	{
+		<div class="d-flex justify-center">
+			<MudText Style="margin-top: 100px;" Typo="@Typo.h4">There are no videos in the list</MudText>
+		</div>	
+	}
+</MudContainer>
+
+@code
+{
+	protected async override Task OnInitializedAsync()
+	{
+		viewModel.IsLoading = true;
+
+		await viewModel.InitAsync();
+
+		viewModel.IsLoading = false;
+	}
+}

@@ -4,5 +4,5 @@ namespace YoutubeWatchlist.Library.Services;
 
 public interface IDatabaseService
 {
-	public Task<(bool success, List<Video> videos)> GetVideosAsync();
+	public Task<(bool success, List<Video> videos, List<Category> categories)> GetDataAsync();
 }
